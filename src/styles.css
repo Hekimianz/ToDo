@@ -1,0 +1,254 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* End of CSS Reset 
+ ************************
+*/
+
+html,
+body {
+  height: 100%;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  background-color: whitesmoke;
+}
+
+#nav {
+  background-color: white;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#mainCont {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  margin-top: 40px;
+  font-size: 1.1em;
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+}
+
+#projectsCont {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1px solid black;
+  text-align: left;
+}
+
+#tasksCont {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: fit-content;
+}
+
+#tasksUl {
+  border-bottom: 1px solid black;
+  width: 100%;
+  text-align: center;
+}
+
+#projectsUl li {
+  margin-top: 20px;
+  cursor: pointer;
+  list-style: circle inside;
+  background-color: antiquewhite;
+  padding: 30px;
+  border-radius: 8px;
+}
+
+.btns {
+  margin-top: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: grey;
+}
+
+.activatedProj {
+  font-weight: bold;
+}
+
+#footer {
+  background-color: whitesmoke;
+}
+
+.btns:hover {
+  color: black;
+}
+
+#userProjInput {
+  display: inline;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid black;
+  border-left: 1px solid black;
+  width: 75px;
+}
+
+#projForm {
+  margin-top: 20px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+#submitName {
+  width: 1.3em;
+  cursor: pointer;
+}
