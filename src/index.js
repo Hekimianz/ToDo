@@ -2,10 +2,11 @@ import "./styles.css";
 
 (function () {
   const LOCAL_STORAGE_PROJECT_KEY = "projects.list";
+  const LOCAL_STORAGE_SELECTED_ID_KEY = "projects.selectedlistid";
   const projects = {
     allProjects:
       JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECT_KEY)) || [],
-    selectedProjId: "",
+    selectedProjId: localStorage.getItem(LOCAL_STORAGE_SELECTED_ID_KEY),
     init() {
       this.cacheDom();
       this.bindEvents();
@@ -65,6 +66,7 @@ import "./styles.css";
         LOCAL_STORAGE_PROJECT_KEY,
         JSON.stringify(this.allProjects)
       );
+      localStorage.setItem(LOCAL_STORAGE_SELECTED_ID_KEY, this.selectedProjId);
     },
     renderProjects() {
       this.clearProjects();
@@ -104,10 +106,11 @@ import "./styles.css";
         if (project.id === this.selectedProjId) {
           this.allProjects.splice(this.allProjects.indexOf(project), 1);
           this.saveAndRender();
-          console.log(this.allProjects);
         }
       });
     },
   };
+
   projects.init();
+  const tasks = {};
 })();
