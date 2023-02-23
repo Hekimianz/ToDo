@@ -8,6 +8,17 @@
     <script defer src="main.js"></script>
   </head>
   <body>
+    <div id="taskForm">
+      <span class="taskItem" id="exampleItem"></span>
+      <input
+        type="text"
+        class="taskInfo"
+        id="taskName"
+        placeholder="Enter task: "
+      />
+      <input type="color" class="taskInfo" id="taskColor" />
+      <button id="submitTask" class="btns">Submit Task</button>
+    </div>
     <div id="wrapper">
       <div id="nav"><h1>ToDo</h1></div>
       <div id="mainCont">
@@ -21,8 +32,13 @@
           </div>
         </div>
         <div id="tasksCont">
-          <h2>Tasks</h2>
-          <ul id="tasksUl"></ul>
+          <div id="tasksUl">
+            <div id="tasksHeader">
+              <h3 id="projectTitle"></h3>
+              <span id="taskCount"></span>
+            </div>
+            <div id="taskList"></div>
+          </div>
           <div id="btnsCont">
             <button id="addTask" class="btns">Add Task</button>
             <button id="delProj" class="btns">Delete Project</button>

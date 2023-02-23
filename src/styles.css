@@ -172,7 +172,8 @@ h1 {
   font-size: 2em;
 }
 
-h2 {
+h2,
+h3 {
   margin-top: 40px;
   font-size: 1.1em;
   text-align: center;
@@ -198,9 +199,87 @@ h2 {
 }
 
 #tasksUl {
-  border-bottom: 1px solid black;
   width: 100%;
   text-align: center;
+  background-color: antiquewhite;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius: 8px;
+}
+
+#tasksHeader {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+#taskCount {
+  color: grey;
+  font-size: 0.9em;
+}
+
+#taskList {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  padding: 15px 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.taskItem {
+  margin-bottom: 10px;
+  padding: 5px 20px;
+  text-align: start;
+  border-radius: 16px;
+}
+
+#exampleItem {
+  margin-bottom: 20px;
+}
+
+#exampleItem:after {
+  color: white;
+}
+
+.taskInfo {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.taskInfo:last-of-type {
+  margin-bottom: 0;
+}
+
+#taskForm {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background-color: white;
+  width: 75vw;
+  height: fit-content;
+  padding: 20px 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 8px;
+}
+
+.taskItem:last-of-type {
+  margin-bottom: 0px;
 }
 
 #projectsUl li {
@@ -208,7 +287,7 @@ h2 {
   cursor: pointer;
   list-style: circle inside;
   background-color: antiquewhite;
-  padding: 30px;
+  padding: 15px;
   border-radius: 8px;
 }
 
