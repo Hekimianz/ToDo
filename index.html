@@ -9,13 +9,19 @@
   </head>
   <body>
     <div id="taskForm">
-      <span class="taskItem" id="exampleItem"></span>
+      <span class="taskItem" id="exampleItem">Example</span>
       <input
         type="text"
         class="taskInfo"
         id="taskName"
         placeholder="Enter task: "
       />
+      <textarea
+        id="taskDesc"
+        rows="4"
+        cols="20"
+        placeholder="Enter a description (Optional)"
+      ></textarea>
       <input type="color" class="taskInfo" id="taskColor" />
       <button id="submitTask" class="btns">Submit Task</button>
     </div>
@@ -46,6 +52,9 @@
         </div>
       </div>
     </div>
-    <div id="footer">Made by Aram Hekimian</div>
+    <div id="footer">
+      Made by
+      <a href="https://github.com/Hekimianz" target="_blank">Aram Hekimian</a>
+    </div>
   </body>
 </html>
