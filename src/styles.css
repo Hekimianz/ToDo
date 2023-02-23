@@ -201,7 +201,7 @@ h3 {
 #tasksUl {
   width: 100%;
   text-align: center;
-  background-color: antiquewhite;
+  background-color: white;
   padding-bottom: 30px;
   display: flex;
   flex-direction: column;
@@ -225,26 +225,89 @@ h3 {
   background-color: white;
   display: flex;
   flex-direction: column;
-  width: fit-content;
+  min-width: 150px;
+  max-width: 80%;
   padding: 15px 20px;
   border-radius: 8px;
   margin-top: 20px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
+#taskColor {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
 
 .taskItem {
   margin-bottom: 10px;
-  padding: 5px 20px;
+  min-height: 20px;
+  min-width: 70px;
+  padding: 10px 10px;
   text-align: start;
   border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.taskNameDiv {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.done {
+  text-decoration: 1px line-through;
+  opacity: 0.4;
+}
+
+.taskItemDesc {
+  margin-top: 10px;
+  font-size: 0.8em;
+}
+
+.taskItemName {
+  font-size: 1.2em;
+}
+
+.taskItemCheck {
+  height: 10px;
+  width: 10px;
+  background-color: white;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: 1s all;
 }
 
 #exampleItem {
   margin-bottom: 20px;
 }
 
-#exampleItem:after {
-  color: white;
+.expandImg {
+  height: 1.2em;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s all;
+}
+
+.expandImg:hover,
+.delImg:hover {
+  opacity: 1;
+}
+
+.delImg {
+  height: 1.2em;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: 0.2s all;
+  margin-left: 10px;
 }
 
 .taskInfo {
@@ -276,6 +339,7 @@ h3 {
     rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 8px;
+  z-index: 1;
 }
 
 .taskItem:last-of-type {
@@ -304,7 +368,12 @@ h3 {
 }
 
 #footer {
+  text-align: center;
   background-color: whitesmoke;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .btns:hover {
@@ -330,4 +399,16 @@ h3 {
 #submitName {
   width: 1.3em;
   cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+  transition: 0.2s all;
+}
+
+a:hover {
+  color: purple;
+  font-size: 1.2em;
 }

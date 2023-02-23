@@ -1,5 +1,7 @@
+/* eslint-disable no-param-reassign */
 import "./styles.css";
 
+// eslint-disable-next-line func-names
 (function () {
   const LOCAL_STORAGE_PROJECT_KEY = "projects.list";
   const LOCAL_STORAGE_SELECTED_ID_KEY = "projects.selectedlistid";
@@ -143,6 +145,7 @@ import "./styles.css";
   const tasks = {
     uInputTaskName: "",
     uInputTaskColor: "",
+    clickedTask: "",
 
     init() {
       this.cacheDom();
@@ -160,6 +163,7 @@ import "./styles.css";
       this.taskCont = document.getElementById("tasksUl");
       this.exampleItem = document.getElementById("exampleItem");
       this.colorPickForm = document.getElementById("taskColor");
+      this.taskDescInput = document.getElementById("taskDesc");
     },
     bindEvents() {
       projects.projectsCont.addEventListener(
@@ -183,10 +187,15 @@ import "./styles.css";
         "input",
         this.createExampleItem.bind(this)
       );
+      document.body.addEventListener("click", this.expandImgEvnt.bind(this));
+      document.body.addEventListener("click", this.checkboxEvnt.bind(this));
+      document.body.addEventListener("click", this.delTaskEvnt.bind(this));
     },
+
     showTaskForm() {
       if (projects.allProjects.length !== 0) {
         this.addTaskForm.style.display = "flex";
+        this.createExampleItem();
       }
     },
 
@@ -196,19 +205,22 @@ import "./styles.css";
         this.taskNameInput.value.length > 1
       ) {
         this.uInputTaskName = this.taskNameInput.value;
+        this.uInputTaskDesc = this.taskDescInput.value;
         this.uInputTaskColor = this.colorPickForm.value;
         this.addTaskForm.style.display = "none";
         this.taskNameInput.value = "";
+        this.taskDescInput.value = "";
         this.addNewTasks();
       }
     },
-    createNewTasks(task, color) {
-      return { task, color };
+    createNewTasks(task, desc, color, id, check = false) {
+      return { task, desc, color, check, id: Date.now().toString() };
     },
     addNewTasks() {
       projects.getSelectedProj();
       const newTask = this.createNewTasks(
         this.uInputTaskName,
+        this.uInputTaskDesc,
         this.uInputTaskColor
       );
       projects.selectedProj.tasks.push(newTask);
@@ -230,11 +242,46 @@ import "./styles.css";
         this.taskCont.style.display = "";
         this.taskCount.innerText = `${projects.selectedProj.tasks.length} tasks`;
         projects.selectedProj.tasks.forEach((task) => {
-          this.taskItems = document.createElement("span");
-          this.taskItems.classList.add("taskItem");
-          this.taskItems.innerText = task.task;
-          this.taskItems.style.background = task.color;
-          this.taskList.appendChild(this.taskItems);
+          this.taskItemDiv = document.createElement("div");
+          this.taskItemDiv.setAttribute("data-id", task.id);
+          this.taskNameDiv = document.createElement("div");
+          this.taskItemName = document.createElement("span");
+          this.taskItemDesc = document.createElement("span");
+          this.taskItemDelImg = document.createElement("img");
+          this.taskItemDelImg.src =
+            "/Users/aramhekimian/repos/ToDo/src/delete.png";
+          this.taskItemDelImg.classList.add("delImg");
+          this.taskItemName.classList.add("taskItemName");
+          this.taskItemCheck = document.createElement("span");
+          this.taskItemCheck.classList.add("taskItemCheck");
+          this.expandImg = document.createElement("img");
+          this.taskItemDiv.classList.add("taskItem");
+          this.taskNameDiv.classList.add("taskNameDiv");
+          this.expandImg.src = "/Users/aramhekimian/repos/ToDo/src/expand.png";
+          this.expandImg.classList.add("expandImg");
+          this.taskItemDesc.classList.add("taskItemDesc");
+          this.taskItemName.innerText = task.task;
+          this.taskItemDiv.style.background = task.color;
+          this.taskItemDesc.innerText = task.desc;
+          this.taskItemDesc.style.display = "none";
+          this.taskNameDiv.appendChild(this.taskItemCheck);
+          if (task.desc !== "") {
+            this.taskNameDiv.appendChild(this.expandImg);
+          }
+          this.taskNameDiv.append(this.taskItemName, this.taskItemDelImg);
+          this.taskItemDiv.append(this.taskNameDiv, this.taskItemDesc);
+          this.taskList.appendChild(this.taskItemDiv);
+          if (task.check === false) {
+            this.taskItemCheck.setAttribute("data-checked", false);
+            this.taskItemCheck.style.background = "white";
+            this.taskItemCheck.style.borderRadius = "";
+            this.taskItemCheck.parentNode.parentNode.classList.remove("done");
+          } else if (task.check === true) {
+            this.taskItemCheck.setAttribute("data-checked", true);
+            this.taskItemCheck.style.background = "black";
+            this.taskItemCheck.style.borderRadius = "50%";
+            this.taskItemCheck.parentNode.parentNode.classList.add("done");
+          }
         });
       }
     },
@@ -242,8 +289,64 @@ import "./styles.css";
       this.taskList.innerHTML = "";
     },
     createExampleItem() {
-      this.exampleItem.innerText = this.taskNameInput.value;
-      this.exampleItem.style.backgroundColor = this.colorPickForm.value;
+      if (this.taskNameInput.value === "") {
+        this.exampleItem.innerText = "Example Task";
+        this.exampleItem.style.backgroundColor = this.colorPickForm.value;
+      } else {
+        this.exampleItem.innerText = this.taskNameInput.value;
+        this.exampleItem.style.backgroundColor = this.colorPickForm.value;
+      }
+    },
+    rot: 0,
+    expandImgEvnt(evnt) {
+      if (evnt.target.className === "expandImg") {
+        if (this.rot === 0) {
+          this.rot = 1;
+          evnt.target.style.transform = "rotate(180deg)";
+          evnt.target.parentNode.nextElementSibling.style.display = "inline";
+        } else if (this.rot === 1) {
+          this.rot = 0;
+          evnt.target.style.transform = "rotate(0deg)";
+          evnt.target.parentNode.nextElementSibling.style.display = "none";
+        }
+      }
+    },
+    getClickedTask(e) {
+      const clickedId = e.target.parentNode.parentNode.dataset.id;
+      projects.selectedProj.tasks.forEach((task) => {
+        if (clickedId === task.id) {
+          this.clickedTask = task;
+        }
+      });
+    },
+    checkboxEvnt(e) {
+      if (e.target.className === "taskItemCheck") {
+        this.getClickedTask(e);
+        if (e.target.dataset.checked === "false") {
+          e.target.dataset.checked = "true";
+          this.clickedTask.check = true;
+        } else {
+          e.target.dataset.checked = "false";
+          this.clickedTask.check = false;
+        }
+        this.renderTaskInfo();
+      }
+    },
+    delTaskEvnt(e) {
+      if (e.target.className === "delImg") {
+        this.getClickedTask(e);
+        projects.selectedProj.tasks.forEach((task) => {
+          if (this.clickedTask.id === task.id) {
+            projects.selectedProj.tasks.splice(
+              projects.selectedProj.tasks.indexOf(task),
+              1
+            );
+            projects.saveAndRender();
+            this.renderTaskInfo();
+            console.log(this.clickedTask);
+          }
+        });
+      }
     },
   };
   tasks.init();
