@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-param-reassign */
 import "./styles.css";
 import deleteImg from "./delete.png";
@@ -80,6 +81,7 @@ import logo from "./logo.png";
         this.saveAndRender();
         this.projectNameInput.style.border = "none";
         this.projectForm.style.display = "none";
+        this.projectAddBtn.style.display = "inline";
       } else {
         this.projectNameInput.style.border = "1px solid red";
       }
