@@ -1,5 +1,9 @@
 /* eslint-disable no-param-reassign */
 import "./styles.css";
+import deleteImg from "./delete.png";
+import expand from "./expand.png";
+import ghLogo from "./ghLogo.png";
+import logo from "./logo.png";
 
 // eslint-disable-next-line func-names
 (function () {
@@ -280,6 +284,7 @@ import "./styles.css";
       textColor,
       svgColor,
       id,
+      // eslint-disable-next-line no-shadow
       expand = false,
       check = false
     ) {
@@ -328,7 +333,7 @@ import "./styles.css";
           const taskItemName = document.createElement("span");
           const taskItemDesc = document.createElement("span");
           const taskItemDelImg = document.createElement("img");
-          taskItemDelImg.src = "/Users/aramhekimian/repos/ToDo/src/delete.png";
+          taskItemDelImg.src = deleteImg;
           taskItemDelImg.classList.add("delImg");
           taskItemName.classList.add("taskItemName");
           const taskItemCheck = document.createElement("span");
@@ -337,7 +342,7 @@ import "./styles.css";
           const expandImg = document.createElement("img");
           taskItemDiv.classList.add("taskItem");
           taskNameDiv.classList.add("taskNameDiv");
-          expandImg.src = "/Users/aramhekimian/repos/ToDo/src/expand.png";
+          expandImg.src = expand;
           expandImg.classList.add("expandImg");
           taskItemDesc.classList.add("taskItemDesc");
           taskItemName.innerText = task.task;
