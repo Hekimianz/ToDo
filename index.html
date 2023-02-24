@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ToDo</title>
+    <title>DOiT</title>
+    <link rel="icon" href="/Users/aramhekimian/repos/ToDo/src/logo.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@700&family=Montserrat:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <script defer src="main.js"></script>
   </head>
   <body>
@@ -25,22 +33,33 @@
       <input type="color" class="taskInfo" id="taskColor" />
       <button id="submitTask" class="btns">Submit Task</button>
     </div>
+    <div id="projectForm">
+      <input
+        id="userProjInput"
+        class="taskInfo"
+        placeholder="Project name: "
+        type="text"
+      />
+      <input type="color" class="taskInfo" id="projColor" />
+      <button id="submitProj" class="btns">Submit Project</button>
+    </div>
     <div id="wrapper">
-      <div id="nav"><h1>ToDo</h1></div>
+      <div id="nav">
+        <img src="/Users/aramhekimian/repos/ToDo/src/logo.png" id="logo" />
+        <h1>DOiT</h1>
+      </div>
       <div id="mainCont">
         <div id="projectsCont">
           <h2>Projects</h2>
           <ul id="projectsUl"></ul>
           <button id="projectAdd" class="btns">Add Project</button>
-          <div id="projForm">
-            <input type="text" id="userProjInput" placeholder="Project" />
-            <img id="submitName" src="/Users/aramhekimian/repos/ToDo/add.svg" />
-          </div>
         </div>
         <div id="tasksCont">
           <div id="tasksUl">
             <div id="tasksHeader">
-              <h3 id="projectTitle"></h3>
+              <div id="taskH">
+                <h3 id="projectTitle"></h3>
+              </div>
               <span id="taskCount"></span>
             </div>
             <div id="taskList"></div>
@@ -54,7 +73,13 @@
     </div>
     <div id="footer">
       Made by
-      <a href="https://github.com/Hekimianz" target="_blank">Aram Hekimian</a>
+      <span>
+        <a href="https://github.com/Hekimianz" target="_blank">
+          Aram Hekimian
+          <img
+            src="/Users/aramhekimian/repos/ToDo/src/ghLogo.png"
+            id="ghLogo" /></a
+      ></span>
     </div>
   </body>
 </html>
