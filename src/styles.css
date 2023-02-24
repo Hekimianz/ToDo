@@ -135,6 +135,7 @@ table {
 html,
 body {
   height: 100%;
+  font-family: "Montserrat", sans-serif;
 }
 
 #wrapper {
@@ -153,6 +154,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  z-index: 2;
 }
 
 #mainCont {
@@ -166,10 +170,16 @@ body {
   bottom: 0;
   width: 100%;
   text-align: center;
+  font-family: "Martian Mono", monospace;
+  font-size: 0.6em;
 }
 
 h1 {
   font-size: 2em;
+  font-family: "Martian Mono", monospace;
+}
+#logo {
+  height: 3em;
 }
 
 h2,
@@ -188,6 +198,7 @@ h3 {
   align-items: center;
   border-right: 1px solid black;
   text-align: left;
+  height: 100%;
 }
 
 #tasksCont {
@@ -205,10 +216,13 @@ h3 {
   padding-bottom: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
-  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  height: 75vh;
 }
 
 #tasksHeader {
@@ -232,7 +246,8 @@ h3 {
   margin-top: 20px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
 }
-#taskColor {
+#taskColor,
+#projColor {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -274,7 +289,7 @@ h3 {
 }
 
 .taskItemName {
-  font-size: 1.2em;
+  font-size: 1em;
 }
 
 .taskItemCheck {
@@ -303,7 +318,7 @@ h3 {
 }
 
 .delImg {
-  height: 1.2em;
+  height: 1em;
   cursor: pointer;
   opacity: 0.5;
   transition: 0.2s all;
@@ -346,13 +361,15 @@ h3 {
   margin-bottom: 0px;
 }
 
-#projectsUl li {
+li {
   margin-top: 20px;
   cursor: pointer;
   list-style: circle inside;
-  background-color: antiquewhite;
+  font-size: 0.8em;
   padding: 15px;
   border-radius: 8px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 
 .btns {
@@ -365,6 +382,8 @@ h3 {
 
 .activatedProj {
   font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 }
 
 #footer {
@@ -376,17 +395,18 @@ h3 {
   align-items: center;
 }
 
+#taskH {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .btns:hover {
   color: black;
 }
 
-#userProjInput {
-  display: inline;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid black;
-  border-left: 1px solid black;
-  width: 75px;
+#delProj:hover {
+  color: red;
 }
 
 #projForm {
@@ -406,9 +426,46 @@ a {
   cursor: pointer;
   color: black;
   transition: 0.2s all;
+  margin-left: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 a:hover {
   color: purple;
-  font-size: 1.2em;
+}
+
+#ghLogo {
+  width: 1em;
+  transition: 1s all;
+  margin-left: 1em;
+}
+
+a:hover > #ghLogo {
+  transform: rotate(360deg);
+  width: 1.2em;
+}
+
+#projectForm {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background-color: white;
+  width: 75vw;
+  height: fit-content;
+  padding: 20px 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 8px;
+  z-index: 1;
 }

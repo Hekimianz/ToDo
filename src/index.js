@@ -11,6 +11,8 @@ import "./styles.css";
       JSON.parse(localStorage.getItem(LOCAL_STORAGE_PROJECT_KEY)) || [],
     selectedProjId: localStorage.getItem(LOCAL_STORAGE_SELECTED_ID_KEY),
     selectedProj: "",
+    uColor: "",
+    textColor: "",
     init() {
       this.cacheDom();
       this.bindEvents();
@@ -23,10 +25,11 @@ import "./styles.css";
       this.projectsCont = document.getElementById("projectsCont");
       this.delProjectBtn = document.getElementById("delProj");
       this.projectNameInput = document.getElementById("userProjInput");
-      this.projectNameForm = document.getElementById("projForm");
-      this.projectNameSubmit = document.getElementById("submitName");
+      this.projectNameSubmit = document.getElementById("submitProj");
       this.projectTitle = document.getElementById("projectTitle");
       this.taskCont = document.getElementById("tasksUl");
+      this.projectForm = document.getElementById("projectForm");
+      this.projectColorInput = document.getElementById("projColor");
     },
     bindEvents() {
       this.projectAddBtn.addEventListener(
@@ -48,21 +51,22 @@ import "./styles.css";
     },
     changeToForm() {
       this.projectAddBtn.style.display = "none";
-      this.projectNameForm.style.display = "flex";
+      this.projectForm.style.display = "flex";
     },
     getUserData() {
       const uPName = this.projectNameInput.value;
+      this.uColor = this.projectColorInput.value;
       this.projectNameInput.value = "";
       if (uPName != null && uPName.length > 0) {
-        const newProject = this.createNewProject(uPName);
+        const newProject = this.createNewProject(uPName, this.uColor);
         this.allProjects.push(newProject);
         this.saveAndRender();
       }
       this.projectAddBtn.style.display = "inline";
-      this.projectNameForm.style.display = "none";
+      this.projectForm.style.display = "none";
     },
-    createNewProject(name) {
-      return { id: Date.now().toString(), name, tasks: [] };
+    createNewProject(name, color) {
+      return { id: Date.now().toString(), name, tasks: [], color };
     },
     saveAndRender() {
       this.save();
@@ -80,6 +84,8 @@ import "./styles.css";
       this.allProjects.forEach((project) => {
         const newLi = document.createElement("li");
         newLi.innerText = project.name;
+        newLi.style.color = this.getContrastYIQ(project.color);
+        newLi.style.background = project.color;
         newLi.setAttribute("id", project.id);
         if (project.id === this.selectedProjId) {
           newLi.classList.add("activatedProj");
@@ -132,12 +138,24 @@ import "./styles.css";
       projects.allProjects.forEach((project) => {
         if (project.id === projects.selectedProjId) {
           this.selectedProj = project;
+          this.textColor = this.getContrastYIQ(this.selectedProj.color);
         }
       });
     },
     renderProjectTitle() {
       this.getSelectedProj();
-      this.projectTitle.innerText = this.selectedProj.name;
+      if (this.selectedProj !== "") {
+        this.projectTitle.innerText = this.selectedProj.name;
+        this.taskCont.style.background = this.selectedProj.color;
+        this.projectTitle.style.color = this.textColor;
+      }
+    },
+    getContrastYIQ(hexcolor) {
+      const r = parseInt(hexcolor.substring(1, 3), 16);
+      const g = parseInt(hexcolor.substring(3, 5), 16);
+      const b = parseInt(hexcolor.substring(5, 7), 16);
+      const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+      return yiq >= 128 ? "black" : "white";
     },
   };
 
@@ -146,6 +164,8 @@ import "./styles.css";
     uInputTaskName: "",
     uInputTaskColor: "",
     clickedTask: "",
+    textColor: "",
+    svgColor: "",
 
     init() {
       this.cacheDom();
@@ -213,15 +233,35 @@ import "./styles.css";
         this.addNewTasks();
       }
     },
-    createNewTasks(task, desc, color, id, check = false) {
-      return { task, desc, color, check, id: Date.now().toString() };
+    createNewTasks(
+      task,
+      desc,
+      color,
+      textColor,
+      svgColor,
+      id,
+      expand = false,
+      check = false
+    ) {
+      return {
+        task,
+        desc,
+        color,
+        textColor,
+        svgColor,
+        expand,
+        id: Date.now().toString(),
+        check,
+      };
     },
     addNewTasks() {
       projects.getSelectedProj();
       const newTask = this.createNewTasks(
         this.uInputTaskName,
         this.uInputTaskDesc,
-        this.uInputTaskColor
+        this.uInputTaskColor,
+        this.textColor,
+        this.svgColor
       );
       projects.selectedProj.tasks.push(newTask);
       projects.save();
@@ -242,46 +282,49 @@ import "./styles.css";
         this.taskCont.style.display = "";
         this.taskCount.innerText = `${projects.selectedProj.tasks.length} tasks`;
         projects.selectedProj.tasks.forEach((task) => {
-          this.taskItemDiv = document.createElement("div");
-          this.taskItemDiv.setAttribute("data-id", task.id);
-          this.taskNameDiv = document.createElement("div");
-          this.taskItemName = document.createElement("span");
-          this.taskItemDesc = document.createElement("span");
-          this.taskItemDelImg = document.createElement("img");
-          this.taskItemDelImg.src =
-            "/Users/aramhekimian/repos/ToDo/src/delete.png";
-          this.taskItemDelImg.classList.add("delImg");
-          this.taskItemName.classList.add("taskItemName");
-          this.taskItemCheck = document.createElement("span");
-          this.taskItemCheck.classList.add("taskItemCheck");
-          this.expandImg = document.createElement("img");
-          this.taskItemDiv.classList.add("taskItem");
-          this.taskNameDiv.classList.add("taskNameDiv");
-          this.expandImg.src = "/Users/aramhekimian/repos/ToDo/src/expand.png";
-          this.expandImg.classList.add("expandImg");
-          this.taskItemDesc.classList.add("taskItemDesc");
-          this.taskItemName.innerText = task.task;
-          this.taskItemDiv.style.background = task.color;
-          this.taskItemDesc.innerText = task.desc;
-          this.taskItemDesc.style.display = "none";
-          this.taskNameDiv.appendChild(this.taskItemCheck);
+          const taskItemDiv = document.createElement("div");
+          taskItemDiv.setAttribute("data-id", task.id);
+          const taskNameDiv = document.createElement("div");
+          const taskItemName = document.createElement("span");
+          const taskItemDesc = document.createElement("span");
+          const taskItemDelImg = document.createElement("img");
+          taskItemDelImg.src = "/Users/aramhekimian/repos/ToDo/src/delete.png";
+          taskItemDelImg.classList.add("delImg");
+          taskItemName.classList.add("taskItemName");
+          const taskItemCheck = document.createElement("span");
+          taskItemCheck.classList.add("taskItemCheck");
+          taskItemCheck.style.border = "1px solid black";
+          const expandImg = document.createElement("img");
+          taskItemDiv.classList.add("taskItem");
+          taskNameDiv.classList.add("taskNameDiv");
+          expandImg.src = "/Users/aramhekimian/repos/ToDo/src/expand.png";
+          expandImg.classList.add("expandImg");
+          taskItemDesc.classList.add("taskItemDesc");
+          taskItemName.innerText = task.task;
+          taskItemDiv.style.color = task.textColor;
+          taskItemDiv.style.background = task.color;
+          taskItemDesc.innerText = task.desc;
+          taskItemDesc.style.display = "none";
+          taskNameDiv.appendChild(taskItemCheck);
           if (task.desc !== "") {
-            this.taskNameDiv.appendChild(this.expandImg);
+            taskNameDiv.appendChild(expandImg);
           }
-          this.taskNameDiv.append(this.taskItemName, this.taskItemDelImg);
-          this.taskItemDiv.append(this.taskNameDiv, this.taskItemDesc);
-          this.taskList.appendChild(this.taskItemDiv);
+          taskNameDiv.append(taskItemName, taskItemDelImg);
+          taskItemDiv.append(taskNameDiv, taskItemDesc);
+          this.taskList.appendChild(taskItemDiv);
           if (task.check === false) {
-            this.taskItemCheck.setAttribute("data-checked", false);
-            this.taskItemCheck.style.background = "white";
-            this.taskItemCheck.style.borderRadius = "";
-            this.taskItemCheck.parentNode.parentNode.classList.remove("done");
+            taskItemCheck.setAttribute("data-checked", false);
+            taskItemCheck.style.background = "white";
+            taskItemCheck.style.borderRadius = "";
+            taskItemCheck.parentNode.parentNode.classList.remove("done");
           } else if (task.check === true) {
-            this.taskItemCheck.setAttribute("data-checked", true);
-            this.taskItemCheck.style.background = "black";
-            this.taskItemCheck.style.borderRadius = "50%";
-            this.taskItemCheck.parentNode.parentNode.classList.add("done");
+            taskItemCheck.setAttribute("data-checked", true);
+            taskItemCheck.style.background = "lightgreen";
+            taskItemCheck.style.borderRadius = "50%";
+            taskItemCheck.parentNode.parentNode.classList.add("done");
           }
+          taskItemDelImg.style.filter = task.svgColor;
+          expandImg.style.filter = task.svgColor;
         });
       }
     },
@@ -289,6 +332,19 @@ import "./styles.css";
       this.taskList.innerHTML = "";
     },
     createExampleItem() {
+      this.textColor = projects.getContrastYIQ(this.colorPickForm.value);
+      if (this.textColor === "white") {
+        this.svgColor =
+          "invert(100%) sepia(5%) saturate(0%) hue-rotate(342deg) brightness(106%) contrast(106%)";
+      } else if (this.textColor === "black") {
+        this.svgColor =
+          "invert(0%) sepia(84%) saturate(7436%) hue-rotate(328deg) brightness(114%) contrast(114%)invert(0%) sepia(84%) saturate(7436%) hue-rotate(328deg) brightness(114%) contrast(114%)";
+      }
+      if (this.textColor === "white") {
+        this.exampleItem.style.color = this.textColor;
+      } else {
+        this.exampleItem.style.color = this.textColor;
+      }
       if (this.taskNameInput.value === "") {
         this.exampleItem.innerText = "Example Task";
         this.exampleItem.style.backgroundColor = this.colorPickForm.value;
@@ -297,15 +353,16 @@ import "./styles.css";
         this.exampleItem.style.backgroundColor = this.colorPickForm.value;
       }
     },
-    rot: 0,
+
     expandImgEvnt(evnt) {
       if (evnt.target.className === "expandImg") {
-        if (this.rot === 0) {
-          this.rot = 1;
+        this.getClickedTask(evnt);
+        if (this.clickedTask.expand === false) {
+          this.clickedTask.expand = true;
           evnt.target.style.transform = "rotate(180deg)";
           evnt.target.parentNode.nextElementSibling.style.display = "inline";
-        } else if (this.rot === 1) {
-          this.rot = 0;
+        } else if (this.clickedTask.expand === true) {
+          this.clickedTask.expand = false;
           evnt.target.style.transform = "rotate(0deg)";
           evnt.target.parentNode.nextElementSibling.style.display = "none";
         }
@@ -322,6 +379,7 @@ import "./styles.css";
     checkboxEvnt(e) {
       if (e.target.className === "taskItemCheck") {
         this.getClickedTask(e);
+        this.clickedTask.expand = false;
         if (e.target.dataset.checked === "false") {
           e.target.dataset.checked = "true";
           this.clickedTask.check = true;
@@ -329,6 +387,7 @@ import "./styles.css";
           e.target.dataset.checked = "false";
           this.clickedTask.check = false;
         }
+        projects.saveAndRender();
         this.renderTaskInfo();
       }
     },
@@ -343,7 +402,6 @@ import "./styles.css";
             );
             projects.saveAndRender();
             this.renderTaskInfo();
-            console.log(this.clickedTask);
           }
         });
       }
