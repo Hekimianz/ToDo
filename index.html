@@ -17,31 +17,53 @@
   </head>
   <body>
     <div id="taskForm">
-      <span class="taskItem" id="exampleItem">Example</span>
-      <input
-        type="text"
-        class="taskInfo"
-        id="taskName"
-        placeholder="Enter task: "
-      />
-      <textarea
-        id="taskDesc"
-        rows="4"
-        cols="20"
-        placeholder="Enter a description (Optional)"
-      ></textarea>
-      <input type="color" class="taskInfo" id="taskColor" />
-      <button id="submitTask" class="btns">Submit Task</button>
+      <div class="formWrap">
+        <div class="colorCont">
+          <input type="color" class="taskInfo" id="taskColor" />
+        </div>
+        <span class="taskItem" id="exampleItem"
+          ><div class="formWrap" id="taskDescWrap">
+            <img
+              src="/Users/aramhekimian/repos/ToDo/src/expand.png"
+              id="exampleExpand"
+            /><input
+              type="text"
+              class="taskInfo"
+              id="taskName"
+              placeholder="Enter task: "
+            />
+          </div>
+          <textarea
+            id="taskDesc"
+            rows="4"
+            cols="20"
+            placeholder="Enter a description (Optional)"
+          ></textarea>
+        </span>
+      </div>
+      <div class="formWrap" id="btnsForm">
+        <button id="submitTask" class="btns">Submit Task</button>
+        <button id="cancelTask" class="btns">Cancel</button>
+      </div>
     </div>
     <div id="projectForm">
-      <input
-        id="userProjInput"
-        class="taskInfo"
-        placeholder="Project name: "
-        type="text"
-      />
-      <input type="color" class="taskInfo" id="projColor" />
-      <button id="submitProj" class="btns">Submit Project</button>
+      <div class="formWrap">
+        <div class="colorCont">
+          <input type="color" class="taskInfo" id="projColor" />
+        </div>
+        <li id="exampleProj">
+          <input
+            id="userProjInput"
+            class="taskInfo"
+            placeholder="Enter project here: "
+            type="text"
+          />
+        </li>
+      </div>
+      <div class="formWrap" id="btnsForm">
+        <button id="submitProj" class="btns">Submit Project</button>
+        <button id="cancelProj" class="btns">Cancel</button>
+      </div>
     </div>
     <div id="wrapper">
       <div id="nav">
