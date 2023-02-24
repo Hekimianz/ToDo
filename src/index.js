@@ -30,6 +30,8 @@ import "./styles.css";
       this.taskCont = document.getElementById("tasksUl");
       this.projectForm = document.getElementById("projectForm");
       this.projectColorInput = document.getElementById("projColor");
+      this.exampleProj = document.getElementById("exampleProj");
+      this.cancelProj = document.getElementById("cancelProj");
     },
     bindEvents() {
       this.projectAddBtn.addEventListener(
@@ -48,8 +50,19 @@ import "./styles.css";
         "click",
         this.getUserData.bind(this)
       );
+      this.projectNameInput.addEventListener(
+        "input",
+        this.createExampleProj.bind(this)
+      );
+      this.projectColorInput.addEventListener(
+        "input",
+        this.createExampleProj.bind(this)
+      );
+      this.cancelProj.addEventListener("click", this.cancelProjEvnt.bind(this));
     },
+
     changeToForm() {
+      this.exampleProj.style.backgroundColor = this.projectColorInput.value;
       this.projectAddBtn.style.display = "none";
       this.projectForm.style.display = "flex";
     },
@@ -61,9 +74,11 @@ import "./styles.css";
         const newProject = this.createNewProject(uPName, this.uColor);
         this.allProjects.push(newProject);
         this.saveAndRender();
+        this.projectNameInput.style.border = "none";
+        this.projectForm.style.display = "none";
+      } else {
+        this.projectNameInput.style.border = "1px solid red";
       }
-      this.projectAddBtn.style.display = "inline";
-      this.projectForm.style.display = "none";
     },
     createNewProject(name, color) {
       return { id: Date.now().toString(), name, tasks: [], color };
@@ -157,6 +172,14 @@ import "./styles.css";
       const yiq = (r * 299 + g * 587 + b * 114) / 1000;
       return yiq >= 128 ? "black" : "white";
     },
+    createExampleProj() {
+      this.exampleProj.style.backgroundColor = this.projectColorInput.value;
+    },
+    cancelProjEvnt() {
+      this.projectNameInput.value = "";
+      this.projectAddBtn.style.display = "inline";
+      this.projectForm.style.display = "none";
+    },
   };
 
   projects.init();
@@ -184,6 +207,7 @@ import "./styles.css";
       this.exampleItem = document.getElementById("exampleItem");
       this.colorPickForm = document.getElementById("taskColor");
       this.taskDescInput = document.getElementById("taskDesc");
+      this.cancelTask = document.getElementById("cancelTask");
     },
     bindEvents() {
       projects.projectsCont.addEventListener(
@@ -210,11 +234,23 @@ import "./styles.css";
       document.body.addEventListener("click", this.expandImgEvnt.bind(this));
       document.body.addEventListener("click", this.checkboxEvnt.bind(this));
       document.body.addEventListener("click", this.delTaskEvnt.bind(this));
+      this.cancelTask.addEventListener("click", this.cancelTaskEvnt.bind(this));
+    },
+    cancelTaskEvnt() {
+      this.addTaskForm.style.display = "none";
+      projects.projectAddBtn.style.display = "inline";
+      this.taskNameInput.value = "";
+      this.taskDescInput.value = "";
     },
 
     showTaskForm() {
-      if (projects.allProjects.length !== 0) {
+      if (
+        projects.allProjects.length !== 0 &&
+        (projects.projectAddBtn.style.display === "inline" ||
+          projects.projectAddBtn.style.display === "")
+      ) {
         this.addTaskForm.style.display = "flex";
+        projects.projectAddBtn.style.display = "none";
         this.createExampleItem();
       }
     },
@@ -231,6 +267,10 @@ import "./styles.css";
         this.taskNameInput.value = "";
         this.taskDescInput.value = "";
         this.addNewTasks();
+        projects.projectAddBtn.style.display = "";
+        this.taskNameInput.style.border = "none";
+      } else {
+        this.taskNameInput.style.border = "1px solid red";
       }
     },
     createNewTasks(
@@ -345,16 +385,21 @@ import "./styles.css";
       } else {
         this.exampleItem.style.color = this.textColor;
       }
-      if (this.taskNameInput.value === "") {
-        this.exampleItem.innerText = "Example Task";
-        this.exampleItem.style.backgroundColor = this.colorPickForm.value;
-      } else {
-        this.exampleItem.innerText = this.taskNameInput.value;
-        this.exampleItem.style.backgroundColor = this.colorPickForm.value;
-      }
+      this.exampleItem.style.backgroundColor = this.colorPickForm.value;
     },
-
+    rot: 0,
     expandImgEvnt(evnt) {
+      if (evnt.target.id === "exampleExpand") {
+        if (this.rot === 0) {
+          this.rot = 1;
+          evnt.target.style.transform = "rotate(180deg)";
+          this.taskDescInput.style.display = "inline";
+        } else if (this.rot === 1) {
+          this.rot = 0;
+          evnt.target.style.transform = "rotate(0deg)";
+          this.taskDescInput.style.display = "none";
+        }
+      }
       if (evnt.target.className === "expandImg") {
         this.getClickedTask(evnt);
         if (this.clickedTask.expand === false) {

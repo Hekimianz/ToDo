@@ -138,15 +138,6 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-#wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
-  background-color: whitesmoke;
-}
-
 #nav {
   background-color: white;
   height: 80px;
@@ -157,6 +148,15 @@ body {
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
     rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   z-index: 2;
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  background-color: whitesmoke;
 }
 
 #mainCont {
@@ -172,6 +172,11 @@ body {
   text-align: center;
   font-family: "Martian Mono", monospace;
   font-size: 0.6em;
+  background-color: whitesmoke;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h1 {
@@ -197,8 +202,79 @@ h3 {
   flex-direction: column;
   align-items: center;
   border-right: 1px solid black;
-  text-align: left;
+  text-align: center;
   height: 100%;
+}
+
+li {
+  margin-top: 20px;
+  cursor: pointer;
+  list-style: circle inside;
+  font-size: 0.8em;
+  padding: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 8px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
+    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
+}
+
+.activatedProj {
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
+    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+}
+
+#projectForm {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  background-color: white;
+  width: 330px;
+  height: fit-content;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+#userProjInput,
+#taskName {
+  background-color: transparent;
+  border: none;
+  width: 60%;
+  text-align: center;
+}
+
+.taskInfo {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+#exampleProj {
+  cursor: default;
+  margin: 0;
+}
+
+#submitProj {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.formWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-right: 20px;
 }
 
 #tasksCont {
@@ -248,14 +324,21 @@ h3 {
 }
 #taskColor,
 #projColor {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  width: 50px;
-  height: 50px;
-  background-color: transparent;
-  border: none;
+  padding: 0;
+  width: 150%;
+  height: 150%;
+  margin: -25%;
   cursor: pointer;
+}
+
+.colorCont {
+  overflow: hidden;
+  width: 2em;
+  height: 2em;
+  /* optional formatting below here */
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px 0px grey;
+  margin: 1em;
 }
 
 .taskItem {
@@ -286,10 +369,23 @@ h3 {
 .taskItemDesc {
   margin-top: 10px;
   font-size: 0.8em;
+  text-align: center;
 }
 
 .taskItemName {
   font-size: 1em;
+}
+
+#btnsForm {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-right: 0;
+}
+
+#submitProj,
+#cancelProj,
+#cancelTask {
+  margin: 0;
 }
 
 .taskItemCheck {
@@ -301,11 +397,8 @@ h3 {
   transition: 1s all;
 }
 
-#exampleItem {
-  margin-bottom: 20px;
-}
-
-.expandImg {
+.expandImg,
+#exampleExpand {
   height: 1.2em;
   cursor: pointer;
   opacity: 0.5;
@@ -313,7 +406,8 @@ h3 {
 }
 
 .expandImg:hover,
-.delImg:hover {
+.delImg:hover,
+#exampleExpand:hover {
   opacity: 1;
 }
 
@@ -323,11 +417,6 @@ h3 {
   opacity: 0.5;
   transition: 0.2s all;
   margin-left: 10px;
-}
-
-.taskInfo {
-  width: 50%;
-  margin-bottom: 10px;
 }
 
 .taskInfo:last-of-type {
@@ -343,9 +432,8 @@ h3 {
   right: 0;
   text-align: center;
   background-color: white;
-  width: 75vw;
+  width: 330px;
   height: fit-content;
-  padding: 20px 0;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -355,21 +443,26 @@ h3 {
     rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   border-radius: 8px;
   z-index: 1;
+  padding: 0 10px;
+}
+
+textarea {
+  resize: none;
+}
+
+#taskDesc {
+  background-color: transparent;
+  border: none;
+  display: none;
+  text-align: center;
+}
+
+#taskDescWrap {
+  margin: 0;
 }
 
 .taskItem:last-of-type {
   margin-bottom: 0px;
-}
-
-li {
-  margin-top: 20px;
-  cursor: pointer;
-  list-style: circle inside;
-  font-size: 0.8em;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 1px 1px,
-    rgba(9, 30, 66, 0.13) 0px 0px 1px 1px;
 }
 
 .btns {
@@ -378,21 +471,6 @@ li {
   border: none;
   cursor: pointer;
   color: grey;
-}
-
-.activatedProj {
-  font-weight: bold;
-  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
-    rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-}
-
-#footer {
-  text-align: center;
-  background-color: whitesmoke;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 #taskH {
@@ -407,13 +485,6 @@ li {
 
 #delProj:hover {
   color: red;
-}
-
-#projForm {
-  margin-top: 20px;
-  display: none;
-  justify-content: center;
-  align-items: center;
 }
 
 #submitName {
@@ -433,7 +504,7 @@ a {
 }
 
 a:hover {
-  color: purple;
+  text-decoration: underline wavy;
 }
 
 #ghLogo {
@@ -447,25 +518,48 @@ a:hover > #ghLogo {
   width: 1.2em;
 }
 
-#projectForm {
-  position: absolute;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  text-align: center;
-  background-color: white;
-  width: 75vw;
-  height: fit-content;
-  padding: 20px 0;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  border-radius: 8px;
-  z-index: 1;
+#submitTask {
+  margin: 0;
+}
+
+@media screen and (min-width: 750px) {
+  li {
+    font-size: 1.4em;
+  }
+
+  #exampleProj {
+    font-size: 0.8em;
+  }
+
+  .taskItemName {
+    font-size: 1.4em;
+  }
+
+  .taskItem {
+    width: 300px;
+  }
+
+  #exampleItem {
+    width: 226px;
+  }
+
+  .delImg {
+    height: 1.2em;
+  }
+
+  .taskItemCheck {
+    width: 15px;
+    height: 15px;
+  }
+
+  .taskItemDesc {
+    font-size: 1em;
+  }
+  #footer {
+    font-size: 1em;
+  }
+
+  #tasksCont {
+    flex: 3;
+  }
 }
